@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Simple in-memory rate limiting
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
@@ -80,8 +78,11 @@ export async function POST(request: NextRequest) {
     const toEmail = process.env.CONTACT_TO_EMAIL || 'mesthapa23@gmail.com';
     const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
 
+    // Initialize Resend with API key
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     // Send email using Resend
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: toEmail,
       replyTo: email,
@@ -95,8 +96,16 @@ export async function POST(request: NextRequest) {
       `,
     });
 
+    if (error) {
+      console.error('Resend API error:', error);
+      return NextResponse.json(
+        { error: 'Failed to send message. Please try again later.' },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, messageId: data.id },
+      { success: true, messageId: data?.id },
       { status: 200 }
     );
   } catch (error) {
