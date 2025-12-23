@@ -1,11 +1,8 @@
-# ⚡ Agency.AI Landing Page
+# ⚡ Landing Page
 
 
 A modern, animated, and responsive **AI Agency Landing Page** built with **Next.js (App Router)**, **Tailwind CSS**, and **Framer Motion**.  
 This project demonstrates a sleek UI with smooth animations, optimized performance, and a developer-friendly setup with real contact form functionality using Resend.
-
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://agencyai-01.netlify.app/)  
-[![Source Code](https://img.shields.io/badge/💻_Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/amdadislam01/agency.ai-landing-page)
 
 ---
 
@@ -177,21 +174,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 👨‍💻 Developer
-
-**Developed by [Amdad Islam](https://amdadislam.netlify.app/)**
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/WEBDEVDESIGNER/agency.ai-landing-page/issues).
-
----
-
-## ⭐ Show your support
-
-Give a ⭐️ if you like this project!
 
 
 
