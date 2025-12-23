@@ -1,40 +1,44 @@
+'use client'
+
 import React, { useEffect, useRef, useState } from 'react'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import TrustedBy from './components/TrustedBy'
-import Services from './components/Services'
-import OurWork from './components/OurWork'
-import Teams from './components/Teams'
-import ContactUs from './components/ContactUs'
+import Navbar from '../components/Navbar'
+import Hero from '../components/Hero'
+import TrustedBy from '../components/TrustedBy'
+import Services from '../components/Services'
+import OurWork from '../components/OurWork'
+import Teams from '../components/Teams'
+import ContactUs from '../components/ContactUs'
 import { Toaster } from 'react-hot-toast'
-import Footer from './components/Footer'
+import Footer from '../components/Footer'
 
 const getInitialTheme = () => {
+  if (typeof window === 'undefined') return 'light'
   const saved = localStorage.getItem('theme')
   if (saved === 'dark' || saved === 'light') return saved
-  if (typeof window !== 'undefined') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  }
-  return 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-const App = () => {
-  const [theme, setTheme] = useState(getInitialTheme)
+export default function Home() {
+  const [theme, setTheme] = useState('light')
+
+  useEffect(() => {
+    setTheme(getInitialTheme())
+  }, [])
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  const dotRef = useRef(null)
-  const outlineRef = useRef(null)
+  const dotRef = useRef<HTMLDivElement>(null)
+  const outlineRef = useRef<HTMLDivElement>(null)
 
   // Refs for custom cursor position tracking 
   const mouse = useRef({x: 0, y: 0})
   const position = useRef({x: 0, y: 0})
 
   useEffect(() => {
-    const handelMouseMove = (e) => {
+    const handelMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX
       mouse.current.y = e.clientY
     }
@@ -59,7 +63,7 @@ const App = () => {
   },[])
 
   return (
-    <div className="relative  bg-white dark:bg-black transition-colors">
+    <div className="relative bg-white dark:bg-black transition-colors">
       <Toaster />
       <Navbar theme={theme} setTheme={setTheme} />
       <Hero />
@@ -71,7 +75,7 @@ const App = () => {
       <Footer theme={theme} />
 
       {/* Custom Cursor Ring */}
-      <div ref={outlineRef} className="fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-[9999" 
+      <div ref={outlineRef} className="fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-[9999]" 
       style={{transition: 'transform 0.1s ease-out'}}>
       </div>
       {/* Custom Cursor Dot */}
@@ -79,5 +83,3 @@ const App = () => {
     </div>
   )
 }
-
-export default App

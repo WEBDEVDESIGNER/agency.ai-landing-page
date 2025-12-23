@@ -1,33 +1,47 @@
-import React from "react";
+'use client'
+
+import React, { useState } from "react";
 import Title from "./Title";
-import assets from "../assets/assets";
+import assets from "../public/assets/assets";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
 const ContactUs = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
     const formData = new FormData(event.target);
-
-    formData.append("access_key", "2738e7c3-8bc9-46d4-acac-071c74d03fa6");
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+      honeypot: formData.get("website"), // honeypot field
+    };
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (data.success) {
-        toast.success("Thank you for your submission");
+      if (response.ok) {
+        toast.success("Thank you for your message! We'll get back to you soon.");
         event.target.reset();
       } else {
-        toast.error(data.message);
+        toast.error(result.error || "Failed to send message. Please try again.");
       }
-    } catch (error) {
-      toast.error(error.message);
+    } catch {
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -86,13 +100,23 @@ const ContactUs = () => {
             name="message"
             placeholder="Enter your message"
             className="w-full p-3 text-sm outline-none rounded-lg border border-gray-300 dark:border-gray-600"
+            required
           />
         </div>
+        {/* Honeypot field - hidden from users */}
+        <input
+          type="text"
+          name="website"
+          className="hidden"
+          tabIndex={-1}
+          autoComplete="off"
+        />
         <button
           type="submit"
-          className="w-max flex gap-2 bg-primary text-white  text-sm px-10 py-3 rounded-full cursor-pointer hover:scale-103 transition-all"
+          disabled={isSubmitting}
+          className="w-max flex gap-2 bg-primary text-white text-sm px-10 py-3 rounded-full cursor-pointer hover:scale-103 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Submit
+          {isSubmitting ? "Sending..." : "Submit"}
           <img src={assets.arrow_icon} alt="" className="w-4" />
         </button>
       </motion.form>

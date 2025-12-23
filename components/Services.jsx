@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react'
-import assets from '../assets/assets'
+import assets from '../public/assets/assets'
 import Title from './Title'
 import ServicesCard from './ServicesCard'
 import { motion } from "framer-motion";

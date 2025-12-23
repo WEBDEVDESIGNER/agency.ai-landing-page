@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import assets from "../assets/assets";
+'use client'
+
+import React from "react";
+import assets from "../public/assets/assets";
 import ThemeToggleBtn from "./ThemeToggleBtn";
 import { motion } from "framer-motion";
 
 const Navbar = ({ theme, setTheme }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
     <motion.div

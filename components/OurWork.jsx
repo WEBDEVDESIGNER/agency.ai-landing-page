@@ -1,6 +1,8 @@
+'use client'
+
 import React from "react";
 import Title from "./Title";
-import assets from "../assets/assets";
+import assets from "../public/assets/assets";
 import { motion } from "framer-motion";
 
 const OurWork = () => {

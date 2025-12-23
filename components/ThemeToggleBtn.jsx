@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react'
-import assets from '../assets/assets'
+import assets from '../public/assets/assets'
 
 const ThemeToggleBtn = ({ theme, setTheme }) => {
   const toggle = () => setTheme(theme === 'dark' ? 'light' : 'dark')
